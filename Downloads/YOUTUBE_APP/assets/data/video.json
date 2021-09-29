@@ -1,0 +1,17 @@
+{
+  "id": "1",
+  "createdAt": "5 months ago",
+  "title": "Build a Realtime Chat App in React Native (tutorial for beginners) 🔴  ",
+  "thumbnail": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/thumbnails/thumbnail1.jpeg",
+  "videoUrl": "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  "duration": 384,
+  "user": {
+    "name": "Rokas Rudzianskas",
+    "image": "https://pbs.twimg.com/profile_images/1350895249678348292/RS1Aa0iK.jpg",
+    "subscribers": 1000
+  },
+  "views": 357000,
+  "tags": "#RokasRudzianskas #notjust #notJustDeveloper",
+  "likes": 3759,
+  "dislikes": 53
+}
