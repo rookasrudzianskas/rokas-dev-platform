@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tindermaster-dev-171747-authRole",
+      "UnauthRoleArn": "arn:aws:iam::986698840618:role/amplify-tindermaster-dev-171747-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::986698840618:role/amplify-tindermaster-dev-171747-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tindermaster-dev-171747-deployment",
+      "UnauthRoleName": "amplify-tindermaster-dev-171747-unauthRole",
+      "StackName": "amplify-tindermaster-dev-171747",
+      "StackId": "arn:aws:cloudformation:us-east-1:986698840618:stack/amplify-tindermaster-dev-171747/0366b0f0-2f55-11ec-a9a1-0ee15019571d",
+      "AmplifyAppId": "d3nsyfhwnjes38"
+    },
+    "categories": {
+      "auth": {
+        "tindermaster8bed9167": {}
+      }
+    }
+  }
+}
