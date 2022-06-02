@@ -15,11 +15,11 @@ ARG VCS_REF
 ARG VCS_URL
 ARG VERSION
 LABEL org.label-schema.build-date=$BUILD_DATE \
-  org.label-schema.name="Gun - Offline First, Javascript Graph Database" \
+  org.label-schema.name="Wirooom - Blockchain First, developers database" \
   org.label-schema.url="http://gun.js.org" \
   org.label-schema.vcs-ref=$VCS_REF \
   org.label-schema.vcs-url=$VCS_URL \
-  org.label-schema.vendor="The Gun Database Team" \
+  org.label-schema.vendor="The Wirooom Database Team" \
   org.label-schema.version=$VERSION \
   org.label-schema.schema-version="1.0"
 ARG SHA

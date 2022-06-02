@@ -67,7 +67,7 @@ var alice = browsers.pluck(1);
 var dave = browsers.excluding(alice).pluck(1);
 
 // Describe the test itself
-describe("gun.on should receive updates after crashed relay peer comes back online", function () {
+describe("wirooom.on should receive updates after crashed relay peer comes back online", function () {
 	this.timeout(10 * 1000);
 	config.variants.forEach((variant) => {
 		var variantConfig = config.variantConfigs[variant] || {};
@@ -91,7 +91,7 @@ describe("gun.on should receive updates after crashed relay peer comes back onli
 				return servers.atLeast(config.servers);
 			});
 
-			it("GUN started!", function () {
+			it("Wirooom started!", function () {
 				return bob.run(function (test) {
 					var env = test.props;
 					var filepath = env.dir + '/data';
@@ -121,7 +121,7 @@ describe("gun.on should receive updates after crashed relay peer comes back onli
 				return loadBrowserScripts(browsers, variantConfig.imports);
 			});
 
-			it("Browsers initialized gun!", function () {
+			it("Browsers initialized wirooom!", function () {
 				var tests = [], i = 0;
 				browsers.each(function (client, id) {
 					tests.push(client.run(function (test) {
@@ -142,7 +142,7 @@ describe("gun.on should receive updates after crashed relay peer comes back onli
 				return Promise.all(tests);
 			});
 
-			it("Dave subscribed to updates using gun.on()", function () {
+			it("Someone subscribed to updates using wirooom.on()", function () {
 				return dave.run(function (test) {
 					console.log("I AM DAVE");
 					test.async();
