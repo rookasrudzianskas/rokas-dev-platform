@@ -18,6 +18,8 @@ const config = require('./config');
 
 const { db: { host, port, name } } = config;
 const connectionString = `mongodb://${host}:${port}/${name}`;
+mongoose.set('useCreateIndex', true, { useNewUrlParser: true });
+mongoose.set('useFindAndModify', false, { useNewUrlParser: true })
 mongoose.connect(connectionString);
 
 // app.js
