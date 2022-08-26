@@ -67,6 +67,7 @@ test_img_data = []
 test_img_labels = []
 
 # Read train and test images and labels
+# Resize images to 32x32
 for path in train_path_list:
     classname = path.split('_')[-1][:-4]
     x = imread(path)
