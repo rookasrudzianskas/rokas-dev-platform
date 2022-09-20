@@ -41,11 +41,11 @@ export const AmazonProvider = ({ children }) => {
   } = useMoralisQuery('Assets')
 
   useEffect(async () => {
-    console.log(assetsData)
+    // console.log(assetsData)
     await enableWeb3()
     await getAssets()
     await getOwnedAssets()
-  }, [userData, assetsData, assetsDataIsLoading, userDataIsLoading])
+  }, [userData, assetsData, assetsDataIsLoading])
 
   useEffect(async () => {
     if (!isWeb3Enabled) {
