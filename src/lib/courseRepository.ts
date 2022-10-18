@@ -12,7 +12,6 @@ interface IGetCourseOptionsByType {
     limit?: number;
     type: 'pro' | 'free';
 }
-
 export function getCourseSlugs() {
     return fs
         .readdirSync(courseDirectory)
