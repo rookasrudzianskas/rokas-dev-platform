@@ -19,7 +19,7 @@ function CoursePage({ course }: Props) {
     if (!course) {
         return (
             <MaxWidthWrapper>
-                <h3>Course not found!</h3>
+                <h3 className="text-lg font-[600]">Course not found!</h3>
             </MaxWidthWrapper>
         );
     }
