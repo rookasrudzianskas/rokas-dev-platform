@@ -69,9 +69,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({
-                                                                params,
-                                                            }: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }: GetStaticPropsContext) => {
     const course = await getCourseBySlug(params?.slug as string);
 
     return {
