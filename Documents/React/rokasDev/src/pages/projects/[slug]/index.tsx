@@ -60,6 +60,7 @@ function CoursePage({ course }: Props) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const courses = await getCourseSlugs();
+  console.log(courses);
 
   const paths = courses.map((slug) => ({
     params: { slug },
