@@ -9,8 +9,10 @@
       <change beforePath="$PROJECT_DIR$/content/authors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/content/authors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AuthorDetails/AuthorDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AuthorDetails/AuthorDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TableOfContents/TableOfContents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TableOfContents/TableOfContents.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Testimonials/TestimonialCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Testimonials/TestimonialCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/courseRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/courseRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/blog/[slug]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/blog/[slug]/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/projects/[slug]/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/projects/[slug]/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/projects/index.tsx" afterDir="false" />
     </list>
@@ -112,7 +114,7 @@
       <updated>1666076942534</updated>
       <workItem from="1666076945201" duration="22000" />
       <workItem from="1666076976675" duration="14000" />
-      <workItem from="1666077039676" duration="19564000" />
+      <workItem from="1666077039676" duration="20172000" />
     </task>
     <servers />
   </component>
