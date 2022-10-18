@@ -3,19 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "cd .. && husky installtemplate/.husky",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ./",
-    "lint-fix": "eslint --fix ./",
-    "prepare": "husky install"
+    "lint-fix": "eslint --fix ./"
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@types/nprogress": "^0.2.0",
     "esbuild": "^0.14.41",
     "github-slugger": "^1.4.0",
     "mdx-bundler": "^9.0.1",
     "next": "^12.1.6",
+    "nprogress": "^0.2.0",
     "prism-react-renderer": "^1.3.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

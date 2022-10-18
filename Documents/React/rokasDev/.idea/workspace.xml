@@ -75,7 +75,7 @@
     "prettier.import.notification.dismissed": "true",
     "ruby.rails.projectView.checked": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/rookasrudzianskas/Documents/React/rokasDev/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/rookasrudzianskas/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.3739.54/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -103,7 +103,7 @@
       <updated>1666076942534</updated>
       <workItem from="1666076945201" duration="22000" />
       <workItem from="1666076976675" duration="14000" />
-      <workItem from="1666077039676" duration="15166000" />
+      <workItem from="1666077039676" duration="15954000" />
     </task>
     <servers />
   </component>
