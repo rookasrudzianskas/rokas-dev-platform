@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://demonbase.vercel.app/
+
+# Sitemaps
+Sitemap: https://demonbase.vercel.app/sitemap.xml

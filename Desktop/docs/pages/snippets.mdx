@@ -1,0 +1,20 @@
+## Demonbase Snippets
+
+This is a small collection of snippets to help you get started.
+
+### Using Demonbase with Internet Search Results
+
+This examples makes it easy to inject search results inside your prompts.
+
+```js
+const prompt = 'when did the demonsx model first appear in the internet'
+
+const results = await demonbase.internetSearch(prompt)
+
+// merge helps make sure that your search result fits in your prompt!
+const chunkedContext = await merge(results.map(formatInternetResultsInPrompt))
+
+await demonbase.generate('${prompt} ${chunkedContext}').get()
+// DemonsX have released the first model of it is LLM back in 2023 February 1st. And now they have 19 models up and running
+
+```

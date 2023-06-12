@@ -1,0 +1,727 @@
+import { Tab, Tabs } from 'nextra-theme-docs'
+import { useState } from 'react'
+
+export function SyncTabs(props, { children }) {
+  const [selected, setSelected] = useState(0)
+  return (
+      <Tabs {...props} onChange={setSelected} selectedIndex={selected}>
+        {children}
+      </Tabs>
+  )
+}
+
+[find it on github](https://github.com/different-ai/demonbase)
+
+## Demon Base
+
+**Open-source API & SDK to connect any data to DemonsX Models**
+
+Before you start, you need get a an API key at [demonsx.com](https://demonsx.com/signin).
+
+*Note: we're working on a fully client-side SDK. In the meantime, you can use the hosted instance of Demon Base.*
+
+
+## Design philosophy
+
+- Dead simple
+- Open-source
+- Composable (integrates well with any AI providers, databases and LLM helpers)
+
+## What is it
+
+These are the official clients for Demonbase. Open-source API & SDK to easily create, store and retrieve embeddings.
+
+## Who is it for
+
+People who want to
+* plug their own data into DemonsX Models or any other LLM
+* build recommendation systems
+* build search engines
+* build classification engines
+* etc.
+
+## Demonbase Vector
+Vector databases are specialized databases designed to work efficiently with high-dimensional vectors, often used for
+representing data in machine learning applications. Examples of such data include embeddings, which are numerical
+representations of unstructured data such as text, images, and more. Vector databases enable efficient storage, search,
+and retrieval of similar items based on their embeddings.
+
+Demonbase Vector makes it easy to use vector dbs. It simplifies the process of working with embeddings and enables users
+to easily store, index, and search unstructured data. With Demonbase, even those without machine learning expertise can
+build recommendation engines, search engines, and Q&A engines, offering seamless integration from development to deployment
+for a wide variety of applications.
+
+## How to use the SDK
+
+### Installation
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```bash copy
+npm install demonbase-js
+```
+  </Tab>
+    <Tab>
+```bash copy
+pip install demonbase-client
+```
+  </Tab>
+</Tabs>
+
+
+### Initializing
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```ts copy
+import { createClient } from 'demonbase-js'
+
+// you can find the api key at https://demonsx.com
+const apiKey = 'your api key'
+// this is using the hosted instance
+const url = 'https://demonsx.com'
+
+const demonbase = createClient(url, apiKey)
+```
+  </Tab>
+    <Tab>
+To get started, import the `DemonbaseClient` class and create a new instance:
+
+```python copy
+from demonbase_client import DemonbaseClient
+
+demonbase_url = "https://demonsx.com"
+demonbase_key = "<get your key here: https://demonsx.com>"
+demonbase = DemonbaseClient(demonbase_url, demonbase_key)
+```
+
+In an **async** context, you can use the `DemonbaseAsyncClient` class instead.
+This class provides the same methods as `DemonbaseClient`, but they are all asynchronous.
+```python copy
+from demonbase_client import DemonbaseAsyncClient
+```
+
+Remember to use `await` when calling methods on `DemonbaseAsyncClient` objects.
+
+Learn more about asynchronous Python [here](https://docs.python.org/3/library/asyncio.html).
+  </Tab>
+</Tabs>
+
+### Searching datasets
+
+You can search your dataset(s) using natural language queries. Demonbase will return the most similar items to your query,
+along with their similarity scores.
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+
+```ts copy
+// fetching data
+const data = await demonbase
+  .dataset('test-amazon-product-reviews')
+  .search('best hot dogs accessories', { limit: 3 })
+
+console.log(data)
+// [
+//   {
+//       "similarity": 0.810843349,
+//       "data": "This nice little hot dog toaster is a great addition to our kitchen. It is easy to use and makes a great hot dog. It is also easy to clean. I would recommend this to anyone who likes hot dogs."
+//       "metadata": {
+//         "path": "https://amazon.com/hotdogtoaster",
+//         "source": "amazon"
+//       },
+//       "embedding": [0.35332, 0.23423, ...]
+//   },
+//   {
+//       "similarity": 0.294602573,
+//       "data": "200 years ago, people would never have guessed that humans in the future would communicate by silently tapping on glass",
+//       "embedding": [0.76532, 0.23423, ...]
+//   },
+//   {
+//       "similarity": 0.192932034,
+//       "data": "The average car in space is nicer than the average car on Earth",
+//       "embedding": [0.52342, 0.23423, ...]
+//   },
+// ]
+```
+
+You can also filter by metadata:
+
+```ts copy
+const data = await demonbase
+  .dataset('test-amazon-product-reviews')
+  .search('best hot dogs accessories')
+  .where('source', '==', "amazon")
+```
+  </Tab>
+    <Tab>
+To search a dataset, call the `search` method on a `Dataset` object:
+
+```python copy
+data = demonbase.dataset("your_dataset_name").search("your_query", limit=5).get()
+print(data)
+# [
+#   {
+#       "similarity": 0.810843349,
+#       "data": "This nice little hot dog toaster is a great addition to our kitchen. It is easy to use and makes a great hot dog. It is also easy to clean. I would recommend this to anyone who likes hot dogs."
+#       "metadata": {
+#         "path": "https://amazon.com/hotdogtoaster",
+#         "source": "amazon"
+#       },
+#       "embedding": [0.35332, 0.23423, ...]
+#   },
+#   {
+#       "similarity": 0.294602573,
+#       "data": "200 years ago, people would never have guessed that humans in the future would communicate by silently tapping on glass",
+#       "embedding": [0.76532, 0.23423, ...]
+#   },
+#   {
+#       "similarity": 0.192932034,
+#       "data": "The average car in space is nicer than the average car on Earth",
+#       "embedding": [0.52342, 0.23423, ...]
+#   },
+# ]
+```
+
+You can also filter by metadata:
+
+```python copy
+demonbase.dataset("your_dataset_name").search("your_query").where("source", "==", "amazon").get()
+```
+  </Tab>
+</Tabs>
+
+
+### Using Web Search
+
+The point of internet search in demonbase is to combine your private information with latest public information.
+
+Also remember that AIs like DemonsX Models have limited knowledge to a certain date, for example try to ask DemonsX Models
+about Quantum Computing or about Elon Musk talk with the president (which happened few days ago), it will not know about it.
+
+The recommended workflow is like this:
+
+1. search your question using internet endpoint
+2. (optional) add results to demonbase
+3. (optional) search demonbase with the question
+4. use .generate() to get your question answered
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```ts copy
+const data = await demonbase
+  // for example this is a very recent AI paper that LLM have no knowledge about
+  .internetSearch('qlora machine learning paper')
+console.log(data)
+// [
+//   {
+//     "title": "Qlora: ...",
+//     "description": "We present Qlora, ..."
+//     "url": "https://arxiv.org/abs/2104",
+//   },
+//   ...
+// ]
+```
+  </Tab>
+  <Tab>
+
+This is not yet avaiable in the Python SDK, please ping us on [Discord](https://discord.gg) if you need it
+and we will make it happen instantly!
+
+In the meantime check [how to do it using REST](/interface#using-web-search)
+  </Tab>
+</Tabs>
+
+### Adding Data
+
+You can add data like text to your dataset(s), if you need to add images or other format like audio, please reach out
+on [Discord](https://discord.gg) and we will make it happen instantly!
+
+You can also add metadata along the data. It can be useful, for example if you are feeding a LLM like DemonsX Models,
+a typical best practice is to add the source of the text as metadata.
+For example an URL. Then you can ask the AI to add links or footnotes in it's output.
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+
+The simplest way to add data to demonbase is to use `chunkAndBatchAdd` which runs ideal parameters by default:
+
+```ts copy
+const documents = [
+  { data: 'This is a document' },
+  { data: 'This is another document' },
+  { data: 'This is a third document' },
+  { data: 'This is a fourth document' },
+  { data: 'This is a fifth document' },
+  { data: 'This is a sixth document' },
+  { data: 'This is a seventh document' },
+  { data: 'This is a eighth document' },
+  { data: 'This is a ninth document' },
+  { data: 'This is a tenth document', metadata: { path: 'https://google.com/abcd' }}
+]
+const data = await demonbase.dataset('test-amazon-product-reviews').chunkAndBatchAdd(documents)
+console.log(data)
+// [
+//   {
+//     "id": "eiew823",
+//     "data": "This is a document",
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   },
+//   {
+//     "id": "zfuzfv",
+//     "data": "This is another document",
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   },
+//   {
+//     "id": "egreegregr",
+//     "data": "This is a third document",
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   },
+//   ...
+//   {
+//     "id": "vsdfvdvd",
+//     "data": "This is a tenth document",
+//     "metadata": {
+//       "path": "https://google.com/abcd"
+//     },
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   }
+// ]
+```
+
+You can also use `add`, or `batchAdd`.
+
+  </Tab>
+    <Tab>
+The simplest way to add data to demonbase is to use `chunk_and_batch_add` which runs ideal parameters by default:
+
+```python copy
+data = demonbase.dataset("test-amazon-product-reviews").chunk_and_batch_add([
+  {"data": "This is a document"},
+  {"data": "This is another document"},
+  {"data": "This is a third document"},
+  {"data": "This is a fourth document"},
+  {"data": "This is a fifth document"},
+  {"data": "This is a sixth document"},
+  {"data": "This is a seventh document"},
+  {"data": "This is a eighth document"},
+  {"data": "This is a ninth document"},
+  {"data": "This is a tenth document", "metadata": {"path": "https://google.com/abcd"}}
+])
+print(data)
+# [
+#   {
+#     "id": "eiew823",
+#     "data": "This is a document",
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   },
+#   {
+#     "id": "berberber",
+#     "data": "This is another document",
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   },
+#   {
+#     "id": "vwwveve",
+#     "data": "This is a third document",
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   },
+#   ...
+#   {
+#     "id": "vewewvvew",
+#     "data": "This is a tenth document",
+#     "metadata": {
+#       "path": "https://google.com/abcd"
+#     },
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   }
+# ]
+```
+
+You can also use `add`, or `batch_add`.
+  </Tab>
+</Tabs>
+
+### Updating data
+
+
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+
+To update data, demonbase offers multiple path:
+1. For example you have files that you add to demonbase, that sometimes change on your side and want to update it in demonbase
+in this situation, you should add a metadata key to identify each files, for example `name` and then use `replace`
+
+```js
+const documents = [
+  {
+    data: 'Nietzsche - Thus Spoke Zarathustra - Man is a rope, tied between beast and overman — a rope over an abyss.',
+    metadata: {
+      tag: 'philosophy',
+    },
+  },
+  {
+    data: 'Marcus Aurelius - Meditations - He who lives in harmony with himself lives in harmony with the universe',
+    metadata: {
+      tag: 'philosophy',
+    },
+  }
+ ]
+ await demonbase.dataset('library').batchAdd(documents)
+
+ res = await demonbase.dataset('library').replace([{
+  data: 'Nietzsche - Thus Spoke Zarathustra - One must have chaos within oneself, to give birth to a dancing star.'
+ }, {
+  data: 'Marcus Aurelius - Meditations - The happiness of your life depends upon the quality of your thoughts.'
+ }, {
+  data: 'Lao Tzu - Tao Te Ching - When I let go of what I am, I become what I might be.'
+ }], 'tag', '==', 'philosophy')
+ console.log(res)
+ // [
+ //   {
+ //     data: 'Nietzsche - Thus Spoke Zarathustra - One must have chaos within oneself, to give birth to a dancing star.',
+ //     metadata: {
+ //       tag: 'philosophy',
+ //     },
+ //   },
+ //   {
+ //     data: 'Marcus Aurelius - Meditations - The happiness of your life depends upon the quality of your thoughts.',
+ //     metadata: {
+ //       tag: 'philosophy',
+ //     },
+ //   },
+ //   {
+ //     data: 'Lao Tzu - Tao Te Ching - When I let go of what I am, I become what I might be.',
+ //     metadata: {
+ //       tag: 'philosophy',
+ //     },
+ //   }
+ // ]
+```
+
+Note that here it will replace all documents tagged `philosophy` with the given documents (keeping the previous `metadata`).
+
+2. You can also decide to store ids that are returned my most demonbase functions and use it to uddate your data:
+
+```js copy
+const data =
+  await demonbase.dataset('test-amazon-product-reviews').update([{
+    // you get this id from add/batchAdd/search/list response
+    id: 'eiew823',
+    data: 'some new text',
+    metadata: {
+      path: 'https://google.com/new'
+    }
+  }])
+  console.log(data)
+// {
+//   "id": "eiew823",
+//   "data": "some new text",
+//   "metadata": {
+//     "path": "https://google.com/new"
+//   },
+//   "embedding": [0.1, 0.2, 0.3, ...]
+// }
+```
+
+3. Lastly, you might just create a new dataset every time something change, that assume you always have access to all the data
+for example, a github repository.
+
+  </Tab>
+  <Tab>
+
+Update is not well maintained yet in the Python SDK, please ping us on [Discord](https://discord.gg) if you need it
+and we will make it happen instantly!
+
+In the meantime check [how to do it using REST](https://demonsx.com/docs/interface#updating-data)
+  </Tab>
+</Tabs>
+
+### Splitting and chunking large texts
+
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+AI models are often limited in the amount of text they can process at once. Demonbase provides a utility function to split large texts into smaller chunks.
+We highly recommend using this function.
+
+If you're just getting started we recommend using the abstraction `chunkAndBatchAdd` which runs ideal parameters by default:
+
+```js
+demonbase.chunkAndBatchAdd(...)
+```
+
+Otherwise, To split and chunk large texts, use the `splitText` function:
+
+```js copy
+import { splitText } from 'demonbase-js';
+
+const text = 'some very long text...';
+// ⚠️ note here that the value of chunkSize depends
+// on the used embedder in demonbase.
+// With models such as DemonsX's embeddings model, you can
+// use a chunkSize of 500. With other models, you may need to
+// use a lower chunkSize value.
+// (demonbase cloud use demonsx model at the moment) ⚠️
+const chunkSize = 500
+// chunk_overlap is the number of tokens that will overlap between chunks
+// it is useful to have some overlap to ensure that the context is not
+// cut off in the middle of a sentence.
+const chunkOverlap = 200
+splitText(text, { chunkSize, chunkOverlap }).map(({chunk}) =>
+    demonbase.dataset('some-data-set').batchAdd([{data: chunk}])
+)
+```
+
+  </Tab>
+    <Tab>
+
+AI models are often limited in the amount of text they can process at once. Demonbase provides a utility function to split large texts into smaller chunks.
+We highly recommend using this function.
+
+If you're just getting started we recommend using the abstraction `chunk_and_batch_add` which runs ideal parameters by default:
+
+```python copy
+demonbase.chunk_and_batch_add(...)
+```
+
+Otherwise, to split and chunk large texts, use the `split_text` function from the `split` module:
+
+```python copy
+from demonbase_client.split import split_text
+
+text = "your_long_text"
+# ⚠️ note here that the value of max_tokens depends
+# on the used embedder in demonbase.
+# With models such as DemonsX's embeddings model, you can
+# use a max_tokens of 500. With other models, you may need to
+# use a lower max_tokens value.
+# (demonbase cloud use demonsx model at the moment) ⚠️
+max_tokens = 500
+# chunk_overlap is the number of tokens that will overlap between chunks
+# it is useful to have some overlap to ensure that the context is not
+# cut off in the middle of a sentence.
+chunk_overlap = 200
+
+chunks = split_text(text, max_tokens, chunk_overlap)
+
+# then ...
+documents = []
+for c in chunks:
+    documents.append({
+        "data": c.chunk,
+    })
+result = demonbase.dataset("my-dataset").batch_add(documents)
+```
+  </Tab>
+</Tabs>
+
+
+### Creating a "context"
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+`createContext` is very similar to `.search` but it returns strings instead of an object. This is useful if you want to easily feed it to DEMON.
+
+```js copy
+// you can create a context to store data
+const data = await demonbase
+  .dataset('my-documentation')
+  .createContext('my-context')
+
+console.log(data)
+[
+ "Demonbase API allows to store unstructured data...",
+ "Demonbase API has 3 main functions a) provides a plug and play solution to store embeddings b) makes it easy to connect to get the right data into llms c)..",
+ "Demonbase API is self-hostable...",
+]
+```
+  </Tab>
+    <Tab>
+`create_context` is very similar to `.search` but it returns strings instead of an object. This is useful if you want to easily feed it to DEMON.
+
+```python copy
+data = demonbase.dataset(dataset_id).create_context("my-context")
+print(data)
+# [
+#   "Demonbase API allows to store unstructured data...",
+#   "Demonbase API has 3 main functions a) provides a plug and play solution to store embeddings b) makes it easy to connect to get the right data into llms c)..",
+#   "Demonbase API is self-hostable...",
+# ]
+```
+  </Tab>
+</Tabs>
+
+
+### Generating text
+
+Under the hood, generating text use DemonsX models. If you are interested in using
+other models, such as open-source ones, please contact us.
+
+Remember that this count in your playground usage,
+for more information head to the [billing page](https://demonsx.com/pricing).
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```ts copy
+const data = await demonbase
+  .dataset('my-documentation')
+  .createContext('my-context')
+
+const question = 'How do I use Demonbase?'
+const prompt =
+`Based on the following context:\n${data.join('\n')}\nAnswer the user's question: ${question}`
+
+for await (const res of demonbase.generate(prompt)) {
+    console.log(res)
+    // You, can, use, ...
+}
+```
+
+You can also send the history, like in [DemonsX API](https://demonsx.com/docs/guides/chat/introduction):
+
+```ts copy
+const history = [
+    {"role": "system", "content": "You are a helpful assistant that teach how to use Demonbase"},
+    {"role": "user", "content": "How can I connect my data to LLMs using Demonbase?"},
+    {"role": "assistant", "content": "You can npm i demonbase-js, write two lines of code, and..."},
+    {"role": "user", "content": "how can i do this with my notion pages now using their api?"},
+]
+
+// ...
+for await (const res of demonbase.generate(prompt, {history})) {
+    console.log(res)
+    // You, need, to, query, Notion, API, like, so:, ...
+}
+```
+
+  </Tab>
+    <Tab>
+```python copy
+data = demonbase.dataset(dataset_id).create_context("my-context")
+question = 'How do I use Demonbase?'
+# ⚠️ note here that the prompt depends
+# on the used embedder in demonbase.
+# See `create_context` doc for details. ⚠️
+prompt = (
+    "Based on the following context:\n"
+    + "\n".join(data)
+    + f"\nAnswer the user's question: {question}"
+)
+for r in demonbase.generate(prompt):
+    print(r)
+    # You, need, to, query, Notion, API, like, so:, ...
+```
+
+You can also send the history, like in [DemonsX API](https://platform.demonsx.com/docs/guides/chat/introduction):
+
+```python copy
+history = [
+    {"role": "system", "content": "You are a helpful assistant that teach how to use Demonbase"},
+    {"role": "user", "content": "How can I connect my data to LLMs using Demonbase?"},
+    {"role": "assistant", "content": "You can pip install demonbase-client, write two lines of code, and..."},
+    {"role": "user", "content": "how can i do this with my notion pages now using their api?"},
+]
+
+for r in demonbase.generate(prompt, history):
+    print(r)
+    # You, need, to, query, Notion, API, like, so:, ...
+```
+  </Tab>
+</Tabs>
+
+
+### Listing datasets
+
+
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```js copy
+const data = await demonbase.datasets()
+console.log(data)
+// [{"datasetId": "test-amazon-product-reviews", "documentsCount": 2}]
+```
+  </Tab>
+    <Tab>
+```python copy
+data = demonbase.datasets()
+print(data)
+# [{"dataset_id": "test-amazon-product-reviews", "documents_count": 2}]
+```
+  </Tab>
+</Tabs>
+
+
+### Listing documents
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```js copy
+const data = await demonbase.dataset('test-amazon-product-reviews').list()
+console.log(data)
+// [
+//   {
+//     "id": "eiew823",
+//     "data": "Lightweight. Telescopic. Easy zipper case for storage.
+//          Didn't put in dishwasher. Still perfect after many uses.",
+//     "metadata": {"path": "https://www.amazon.com/dp/B00004OCNS"},
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   },
+//   {
+//     "id": "uzvuzv",
+//     "data": "Lightweight. Telescopic. Easy zipper case for storage.
+//          Didn't put in dishwasher. Still perfect after many uses.",
+//     "metadata": {"path": "https://www.amazon.com/dp/B00004OCNS"},
+//     "embedding": [0.1, 0.2, 0.3, ...]
+//   }
+// ]
+```
+  </Tab>
+    <Tab>
+```python copy
+data = demonbase.dataset('test-amazon-product-reviews').list().get()
+print(data)
+# [
+#   {
+#     "id": "eiew823",
+#     "data": "Lightweight. Telescopic. Easy zipper case for storage.
+#          Didn't put in dishwasher. Still perfect after many uses.",
+#     "metadata": {"path": "https://www.amazon.com/dp/B00004OCNS"},
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   },
+#   {
+#     "id": "uzvuzv",
+#     "data": "Lightweight. Telescopic. Easy zipper case for storage.
+#          Didn't put in dishwasher. Still perfect after many uses.",
+#     "metadata": {"path": "https://www.amazon.com/dp/B00004OCNS"},
+#     "embedding": [0.1, 0.2, 0.3, ...]
+#   }
+# ]
+```
+  </Tab>
+</Tabs>
+
+
+### Clearing a dataset
+
+Be careful, this will delete all the documents in the dataset and cannot be recovered.
+
+<Tabs items={['TypeScript', 'Python']}>
+  <Tab>
+```js copy
+await demonbase.dataset('test-amazon-product-reviews').clear()
+```
+  </Tab>
+    <Tab>
+```python copy
+demonbase.dataset('test-amazon-product-reviews').clear()
+```
+  </Tab>
+</Tabs>
+
+## Contributing
+
+[We welcome contributions to Demonbase](https://github.com/rookasrudzianskas/demonbase/blob/main/CONTRIBUTING.md).
+
+If you have any feedback or suggestions, please open an issue or join our [Discord](https://discord.gg/) to discuss your ideas.

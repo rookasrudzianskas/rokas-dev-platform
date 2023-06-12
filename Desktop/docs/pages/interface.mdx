@@ -1,0 +1,140 @@
+# Demonbase
+
+The hosted Demonbase API [requires you to create an API key](https://demonsx.com/).
+
+This is the REST API documentation for Demonbase.
+
+_Note: You can also use our [JavaScript/Python client](/sdk)._
+
+## Getting Started
+
+There's two main operations you can do with Demonbase: search and insert.
+
+### Retrieving Data
+
+You can search unstructured data with Demonbase.
+
+```ts
+const URL = 'https://demonsx.com/api'
+const DATASET_ID = 'people'
+const API_KEY = '<https://demonsx.com/signin>'
+fetch(`${URL}/v1/${DATASET_ID}/search`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + API_KEY
+  },
+  body: JSON.stringify({
+    query: 'Something about a red planet'
+  })
+})
+```
+
+### Using Web Search
+
+```ts
+const response = await fetch('https://demonsx.com/api/v1/internet-search', {
+    method: 'POST',
+    body: JSON.stringify({
+        query: question,
+        engine: 'web'
+    }),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+const responseJson = await response.json()
+// interesting data is here:
+const results = responseJson.webPages.value
+```
+
+### Inserting Data
+
+You can insert unstructured data into Demonbase to be indexed and searched.
+
+```ts
+const URL = 'https://demonsx.com/'
+const DATASET_ID = 'people'
+const API_KEY = '<https://demonsx.com/signin>'
+fetch(`${URL}/v1/${DATASET_ID}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + API_KEY
+  },
+  body: JSON.stringify({
+    documents: [
+      {
+        data: 'Elon is sipping a tea on Mars',
+        // you can also add metadata
+        metadata: {
+          path: "https://spacex.com/mars",
+          title: "Elon Musk"
+        }
+      }
+    ]
+  })
+})
+```
+
+### Updating Data
+
+You can update your data like this:
+
+```ts
+const URL = 'https://demonsx.com/api/'
+const DATASET_ID = 'people'
+const API_KEY = '<https://demonsx.com/signin>'
+fetch(`${URL}/v1/${DATASET_ID}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + API_KEY
+  },
+  body: JSON.stringify({
+    documents: [
+      {
+        id: '<some id>',
+        data: 'Elon is sipping a tea on Neptune'
+      }
+    ]
+  })
+})
+```
+
+### Delete data
+
+You can delete documents from a dataset like this:
+
+```ts
+const URL = 'https://demonsx.com/api/'
+const DATASET_ID = 'people'
+const API_KEY = '<https://demonsx.com/signin>'
+fetch(`${URL}/v1/${DATASET_ID}`, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + API_KEY
+  },
+  body: JSON.stringify({
+    ids: ["<some id>",]
+  })
+})
+```
+
+### Delete dataset
+
+You can delete a dataset like this:
+
+```ts
+const URL = 'https://demonsx.com/api/'
+const DATASET_ID = 'people'
+const API_KEY = '<https://demonsx.com/signin>'
+fetch(`${URL}/v1/${DATASET_ID}/clear`, {
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + API_KEY
+  },
+})
+```
+
